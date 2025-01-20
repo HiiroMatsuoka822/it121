@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pig Latin Translator</title>
+</head>
+<body>
+
+<script>
+    function pigLatin(word) {
+        word = word.toLowerCase();
+        const vowels = ['a', 'e', 'i', 'o', 'u'];
+
+        if (word.length < 2) {
+            return "Input can't be translated";
+        }
+
+        if (vowels.includes(word[0])) {
+            return word + 'way';
+        } else if (!vowels.includes(word[0]) && vowels.includes(word[1])) {
+            return word.slice(1) + word[0] + 'ay';
+        } else {
+            return word.slice(2) + word[0] + word[1] + 'ay';
+        }
+    }
+
+    function translateSentence(sentence) {
+        let words = sentence.split(' ');
+        let translatedWords = words.map(word => pigLatin(word));
+        return translatedWords.join(' ');
+    }
+
+    let phrase = prompt("Enter a phrase:");
+    if (!phrase || phrase.trim().length === 0) {
+        document.write("Input can't be translated");
+    } else {
+        let result = translateSentence(phrase);
+        document.write("You entered: ", phrase, "<br>");
+        document.write("Pig Latin translation: ", result);
+    }
+</script>
+
+</body>
+</html>
