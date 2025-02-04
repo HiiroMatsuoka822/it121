@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<body>
+
+<h1>Functions & validation</h1>
+
+<form id="form1" action="#" onsubmit="return validateForm(this);">
+  first name: <input type="text" name="firstname"><br>
+  last name: <input type="text" name="lastname"><br>
+  password: <input type="password" name="password"><br>
+
+  <button>Check</button>
+</form>
+
+<hr><div id="message"></div>
+
+<script>
+
+  // Function to validate the password
+  const validatePassword = (password) => {
+    if (password.length < 8) {
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      return false;
+    }
+    if (!/[a-z]/.test(password)) {
+      return false;
+    }
+    return true;
+  }
+
+  // Function to validate the form
+  const validateForm = (myForm) => {
+    let firstname = myForm.firstname.value; // get text of firstname field
+    let lastname = myForm.lastname.value; // get text of lastname field
+    let password = myForm.password.value; // get text of password field
+
+    // Check if first name is missing
+    if (firstname === "") {
+      $("#message").html("First name is missing.");
+      return false; // prevent form submission
+    }
+
+    // Check if last name is missing
+    if (lastname === "") {
+      $("#message").html("Last name is missing.");
+      return false; // prevent form submission
+    }
+
+    // Validate the password
+    if (!validatePassword(password)) {
+      $("#message").html("Password must be at least 8 characters long, with at least one uppercase letter and one lowercase letter.");
+      return false; // prevent form submission
+    }
+
+    // All validations passed
+    $("#message").html("Form submitted successfully!");
+    return false; // prevent page reload
+  }
+
+</script>
+
+</body>
+</html>
