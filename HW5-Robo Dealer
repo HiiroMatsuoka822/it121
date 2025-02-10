@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Dealing Program</title>
+</head>
+<body>
+  <button onclick="dealNewHand()">Deal New Hand</button>
+  <ul id="card-hand"></ul>
+
+  <script>
+    class Card {
+      constructor(value, suit) {
+        this.value = value;
+        this.suit = suit;
+      }
+
+      get name() {
+        if (this.value === 11) return 'Jack';
+        if (this.value === 12) return 'Queen';
+        if (this.value === 13) return 'King';
+        if (this.value === 14) return 'Ace';
+        return this.value.toString();
+      }
+
+      toString() {
+        return `${this.name} of ${this.suit}`;
+      }
+    }
+
+    const suits = ['Hearts', 'Spades', 'Diamonds', 'Clubs'];
+    const deck = [];
+
+    for (let i = 2; i <= 14; i++) {
+      for (const suit of suits) {
+        deck.push(new Card(i, suit));
+      }
+    }
+
+    function drawCards(deck, count = 5) {
+      const hand = [];
+      const deckCopy = [...deck]; // To avoid modifying the original deck
+
+      for (let i = 0; i < count; i++) {
+        const randomIndex = Math.floor(Math.random() * deckCopy.length);
+        hand.push(deckCopy.splice(randomIndex, 1)[0]);
+      }
+
+      return hand;
+    }
+
+    function dealNewHand() {
+      const hand = drawCards(deck);
+      const cardHandElement = document.getElementById('card-hand');
+      cardHandElement.innerHTML = ''; // Clear previous hand
+
+      for (const card of hand) {
+        const li = document.createElement('li');
+        li.textContent = card.toString();
+        cardHandElement.appendChild(li);
+      }
+    }
+  </script>
+</body>
+</html>
