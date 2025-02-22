@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Harry Potter Characters</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <style>
+        .over {
+            background-color: orange;
+        }
+        .selected {
+            background-color: green;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div id="buttons"></div>
+    <table id="character-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>House</th>
+                <th>Gender</th>
+                <th>Alignment</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button id="reset">Reset</button>
+</body>
+<script>
+
+let characters = [
+    {name:"Albus Dumbledore", role:"staff", house:"Gryffindor",gender:"m",alignment:"good"},    
+    {name:"Nymphadora Tonks", role:"", house:"Hufflepuff",gender:"f",alignment:"good"},    
+    {name:"Ron Weasley", role:"student", house:"Gryffindor",gender:"m",alignment:"good"},    
+    {name:"Ginny Weasley", role:"student", house:"Gryffindor",gender:"f",alignment:"good"},    
+    {name:"Hermione Granger", role:"student", house:"Gryffindor",gender:"f",alignment:"good"},    
+    {name:"Mad-eye Moody", role:"staff", house:"",gender:"m",alignment:"good"},    
+    {name:"Prof McGonagall", role:"staff", house:"Gryffindor",gender:"f",alignment:"good"},    
+    {name:"Harry Potter", role:"student", house:"Gryffindor",gender:"m",alignment:"good"},    
+    {name:"Draco Malfoy", role:"student", house:"Slytherin",gender:"m",alignment:"evil"},    
+    {name:"Hagrid", role:"staff", house:"Gryffindor",gender:"m",alignment:"good"},    
+    {name:"Luna Lovegood", role:"student", house:"Ravenclaw",gender:"f",alignment:"good"},    
+    {name:"Voldemort", role:"", house:"Slytherin",gender:"m",alignment:"evil"},    
+    {name:"Bellatrix Lestrange", role:"", house:"Slytherin",gender:"f",alignment:"evil"},           
+    {name:"Severus Snape", role:"staff", house:"Slytherin",gender:"m",alignment:"?"}
+];
+
+$(document).ready(function() {
+    const $tableBody = $("#character-table tbody");
+    const $buttonsDiv = $("#buttons");
+
+    const uniqueHouses = [...new Set(characters.map(character => character.house).filter(house => house))];
+
+    characters.forEach(character => {
+        const row = `<tr data-house="${character.house}">
+            <td>${character.name}</td>
+            <td>${character.role}</td>
+            <td>${character.house}</td>
+            <td>${character.gender}</td>
+            <td>${character.alignment}</td>
+        </tr>`;
+        $tableBody.append(row);
+    });
+
+    uniqueHouses.forEach(house => {
+        const button = `<button class="house-filter" data-house="${house}">${house}</button>`;
+        $buttonsDiv.append(button);
+    });
+
+    const resetButton = `<button id="reset">Reset</button>`;
+    $buttonsDiv.append(resetButton);
+
+    $(".house-filter").on("click", function() {
+        const house = $(this).data("house");
+        $("tr").show();
+        $("tr").not(`[data-house='${house}']`).not(":first").hide();
+        updateRowColors();
+    });
+
+    $("#reset").on("click", function() {
+        $("tr").show();
+        updateRowColors();
+    });
+
+    function updateRowColors() {
+        $("tr:visible").each(function(index) {
+            $(this).css("background-color", index % 2 === 0 ? "#f9f9f9" : "#ffffff");
+        });
+    }
+
+    updateRowColors();
+});
+</script>
+</html>
