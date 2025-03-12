@@ -1,0 +1,65 @@
+<canvas id="myCanvas" width="500" height="500"></canvas>
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Ball properties
+    let ballX = 250; // Initial X position
+    let ballY = 250; // Initial Y position
+    let ballRadius = 20; // Ball size
+    let ballDX = 3; // X direction speed
+    let ballDY = 2; // Y direction speed
+
+    // Animation function
+    function draw() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw rectangle (box)
+        ctx.beginPath();
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 4;
+        ctx.rect(50, 50, 400, 400);
+        ctx.stroke();
+        ctx.closePath();
+
+        // Draw gridlines (lines)
+        ctx.beginPath();
+        ctx.strokeStyle = 'lightgray';
+        for (let i = 50; i <= 450; i += 50) {
+            ctx.moveTo(50, i);
+            ctx.lineTo(450, i);
+            ctx.moveTo(i, 50);
+            ctx.lineTo(i, 450);
+        }
+        ctx.stroke();
+        ctx.closePath();
+
+        // Draw the ball (arc)
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'darkred';
+        ctx.stroke();
+        ctx.closePath();
+
+        // Update ball position
+        ballX += ballDX;
+        ballY += ballDY;
+
+        // Check for collisions with the box walls
+        if (ballX + ballRadius > 450 || ballX - ballRadius < 50) {
+            ballDX = -ballDX; // Reverse X direction
+        }
+        if (ballY + ballRadius > 450 || ballY - ballRadius < 50) {
+            ballDY = -ballDY; // Reverse Y direction
+        }
+
+        // Repeat the drawing function
+        requestAnimationFrame(draw);
+    }
+
+    // Start animation
+    draw();
+</script>
