@@ -1,0 +1,20 @@
+import http from 'http';
+
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end('<h1>Welcome to the Home Page!</h1><p>This is a simple Node.js web server.</p>');
+  } else if (req.url === '/about') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end('<h1>About Me</h1><p>My name is [Your Name], and I am learning Node.js.</p>');
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/html' });
+    res.end('<h1>404 Not Found</h1><p>The requested URL was not found.</p>');
+  }
+});
+
+server.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});
